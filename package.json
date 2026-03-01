@@ -1,0 +1,37 @@
+{
+  "name": "ai-search-engine",
+  "version": "1.0.0",
+  "description": "Top-tier AI search engine supporting text and image content search with mobile/Safari optimization",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "jest --forceExit --testTimeout=15000"
+  },
+  "keywords": [
+    "ai",
+    "search",
+    "image-search",
+    "text-search",
+    "tfidf"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.1",
+    "multer": "^2.1.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
+  }
+}
