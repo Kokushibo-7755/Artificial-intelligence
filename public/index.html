@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Safari / Mobile viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>AI Search Engine</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Age Verification Gate -->
+  <div id="age-gate" class="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-gate-title">
+    <div class="age-gate__card">
+      <div class="age-gate__icon">🔞</div>
+      <h1 id="age-gate-title" class="age-gate__title">Age Verification Required</h1>
+      <p class="age-gate__text">
+        This platform may contain adult (18+) content. You must be at least
+        <strong>18 years old</strong> to continue.
+      </p>
+      <div class="age-gate__actions">
+        <button id="age-confirm" class="btn btn--primary btn--lg">
+          I am 18 or older – Enter
+        </button>
+        <a href="https://www.google.com" class="btn btn--secondary btn--lg">
+          I am under 18 – Leave
+        </a>
+      </div>
+      <p class="age-gate__legal">
+        By entering, you confirm you are of legal age in your jurisdiction and
+        agree to our Terms of Service.
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Application -->
+  <div id="app" class="app hidden">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container header__inner">
+        <a href="/" class="header__logo">
+          <span class="header__logo-icon">🔍</span>
+          <span class="header__logo-text">AI<strong>Search</strong></span>
+        </a>
+        <nav class="header__nav" aria-label="Main navigation">
+          <button class="btn btn--ghost btn--sm" id="btn-about">About</button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <h1 class="hero__title">AI-Powered Search</h1>
+        <p class="hero__subtitle">
+          Intelligent text &amp; image search — fast, accurate, and mobile-ready
+        </p>
+
+        <!-- Search Type Tabs -->
+        <div class="tabs" role="tablist" aria-label="Search type">
+          <button class="tab tab--active" role="tab" aria-selected="true"
+                  aria-controls="panel-text" id="tab-text" data-tab="text">
+            📝 Text Search
+          </button>
+          <button class="tab" role="tab" aria-selected="false"
+                  aria-controls="panel-image" id="tab-image" data-tab="image">
+            🖼️ Image Search
+          </button>
+        </div>
+
+        <!-- Text Search Panel -->
+        <div class="search-panel" id="panel-text" role="tabpanel" aria-labelledby="tab-text">
+          <form class="search-form" id="form-text" novalidate>
+            <div class="search-bar">
+              <input
+                type="search"
+                id="text-query"
+                class="search-bar__input"
+                placeholder="Search anything…"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                aria-label="Search query"
+              />
+              <button type="submit" class="search-bar__btn btn btn--primary" aria-label="Search">
+                <span class="search-bar__btn-icon">🔍</span>
+                <span class="search-bar__btn-text">Search</span>
+              </button>
+            </div>
+            <p class="search-hint">Try: "artificial intelligence", "image recognition", "mobile development"</p>
+          </form>
+        </div>
+
+        <!-- Image Search Panel -->
+        <div class="search-panel hidden" id="panel-image" role="tabpanel" aria-labelledby="tab-image">
+          <form class="search-form" id="form-image" novalidate enctype="multipart/form-data">
+            <div class="upload-zone" id="upload-zone" role="button" tabindex="0"
+                 aria-label="Upload image for search">
+              <div class="upload-zone__inner" id="upload-preview-area">
+                <span class="upload-zone__icon">📁</span>
+                <span class="upload-zone__text">
+                  Drop an image here or <u>click to browse</u>
+                </span>
+                <span class="upload-zone__sub">JPEG, PNG, GIF, WebP · max 50 MB</span>
+              </div>
+              <input type="file" id="image-file" name="image" accept="image/*"
+                     class="upload-zone__input" aria-label="Choose image file" />
+            </div>
+            <input
+              type="text"
+              id="image-tags"
+              class="tags-input"
+              placeholder="Optional tags (comma-separated): art, portrait, nature…"
+              aria-label="Tags for image search"
+            />
+            <button type="submit" class="btn btn--primary btn--block" id="btn-image-search">
+              🔍 Find Similar Images
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Index Content Section -->
+    <section class="section section--alt" id="section-index">
+      <div class="container">
+        <h2 class="section__title">📥 Index New Content</h2>
+        <div class="index-tabs" role="tablist" aria-label="Index type">
+          <button class="index-tab index-tab--active" data-panel="index-text-panel" role="tab">
+            Index Text
+          </button>
+          <button class="index-tab" data-panel="index-image-panel" role="tab">
+            Index Image
+          </button>
+        </div>
+
+        <!-- Index Text -->
+        <div class="index-panel" id="index-text-panel">
+          <form id="form-index-text" class="index-form" novalidate>
+            <label class="form-label" for="idx-title">Title <span aria-hidden="true">*</span></label>
+            <input type="text" id="idx-title" class="form-input" placeholder="Document title" required />
+            <label class="form-label" for="idx-content">Content <span aria-hidden="true">*</span></label>
+            <textarea id="idx-content" class="form-textarea" rows="4"
+                      placeholder="Document content…" required></textarea>
+            <label class="form-label" for="idx-tags">Tags</label>
+            <input type="text" id="idx-tags" class="form-input"
+                   placeholder="Comma-separated tags" />
+            <button type="submit" class="btn btn--accent">+ Add to Index</button>
+          </form>
+        </div>
+
+        <!-- Index Image -->
+        <div class="index-panel hidden" id="index-image-panel">
+          <form id="form-index-image" class="index-form" novalidate enctype="multipart/form-data">
+            <label class="form-label" for="idx-img-file">Image File <span aria-hidden="true">*</span></label>
+            <input type="file" id="idx-img-file" name="image" accept="image/*"
+                   class="form-input" required />
+            <label class="form-label" for="idx-img-title">Title</label>
+            <input type="text" id="idx-img-title" class="form-input"
+                   placeholder="Image title (optional)" />
+            <label class="form-label" for="idx-img-desc">Description</label>
+            <input type="text" id="idx-img-desc" class="form-input"
+                   placeholder="Short description (optional)" />
+            <label class="form-label" for="idx-img-tags">Tags</label>
+            <input type="text" id="idx-img-tags" class="form-input"
+                   placeholder="Comma-separated tags" />
+            <button type="submit" class="btn btn--accent">+ Add to Index</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="section" id="section-results" aria-live="polite">
+      <div class="container">
+        <div id="results-meta" class="results-meta hidden"></div>
+        <div id="results-grid" class="results-grid"></div>
+        <div id="pagination" class="pagination hidden"></div>
+        <div id="results-empty" class="results-empty hidden">
+          <span class="results-empty__icon">🔎</span>
+          <p>No results found. Try a different query or add content to the index.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toast notifications -->
+    <div id="toast-container" class="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>AI Search Engine · Built with Node.js &amp; Express · Mobile-first · Safari-optimised</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
